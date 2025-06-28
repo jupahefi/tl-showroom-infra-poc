@@ -5,9 +5,7 @@ set -e  # ⛔ Detener ejecución si hay error
 # 📌 Cargar variables desde `.env`
 ENV_FILE=".env"
 if [[ -f "$ENV_FILE" ]]; then
-    set -a
-    source "$ENV_FILE"
-    set +a
+    export $(grep -v '^#' "$ENV_FILE" | xargs -d '\n')
 else
     echo "❌ ERROR: No se encontró el archivo .env. Ejecuta 'init.sh' primero."
     exit 1
