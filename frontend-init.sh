@@ -5,7 +5,9 @@ set -e  # ⛔ Detener ejecución si hay error
 # 📌 Cargar variables desde `.env`
 ENV_FILE=".env"
 if [[ -f "$ENV_FILE" ]]; then
-    export $(grep -v '^#' "$ENV_FILE" | xargs -d '\n')
+    set -a
+    source "$ENV_FILE"
+    set +a
 else
     echo "❌ ERROR: No se encontró el archivo .env. Ejecuta 'init.sh' primero."
     exit 1
@@ -37,7 +39,7 @@ create_or_replace_file() {
 # 🛠️ Verificar si Node.js y npm están instalados
 if ! command -v node &> /dev/null; then
     echo "🔹 Node.js no encontrado. Instalando..."
-    curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
     apt-get install -y nodejs
 fi
 
@@ -63,9 +65,6 @@ npm create vite@latest "$PROJECT_NAME" -- --template vue-ts
 cd "$PROJECT_NAME"
 echo "📦 Instalando dependencias..."
 npm install
-
-# 🔥 Forzar instalación de Vue 3
-npm install vue@3
 npm install axios vue-tsc
 
 # 📜 Configurar TypeScript para Vue
