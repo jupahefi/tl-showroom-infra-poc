@@ -55,14 +55,17 @@ if [[ -d "$PROJECT_NAME" ]]; then
     rm -rf "$PROJECT_NAME"
 fi
 
-# 🚀 Crear un nuevo proyecto con Vite y Vue 3 (TypeScript)
+# 🚀 Crear nuevo proyecto Vite + Vue 3 (TypeScript)
 echo "🚀 Creando nuevo proyecto Vite + Vue 3 (TypeScript)..."
-npm create vite@latest "$PROJECT_NAME" --template vue-ts --yes
+npm create vite@latest "$PROJECT_NAME" -- --template vue-ts
 
 # 📂 Entrar al proyecto y configurar dependencias
 cd "$PROJECT_NAME"
 echo "📦 Instalando dependencias..."
 npm install
+
+# 🔥 Forzar instalación de Vue 3
+npm install vue@3
 npm install axios vue-tsc
 
 # 📜 Configurar TypeScript para Vue
